@@ -31,4 +31,15 @@ export class CarouselService {
       throw error;
     }
   }
+
+  async delete(item: any): Promise<void> {
+    const carouselRef = collection(this.db, 'carousel');
+    const cityDoc = doc(carouselRef, item.id);
+
+    try {
+      await deleteDoc(cityDoc);
+    } catch (error) {
+      throw error;
+    }
+  }
 }
