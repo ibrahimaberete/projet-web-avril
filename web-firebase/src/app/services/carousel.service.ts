@@ -20,6 +20,26 @@ export class CarouselService {
     this.db = getFirestore(this.app);
   }
 
+  getCarouselData(): Observable<any[]> {
+    const carouselRef = collection(this.db, 'carousel');
+
+    return new Observable<any[]>((observer) => {
+      const unsubscribe = onSnapshot(carouselRef, (querySnapshot) => {
+        const carouselData: any[] = [];
+
+        querySnapshot.forEach((doc) => {
+          const data = doc.data();
+          data['id'] = doc.id;
+          carouselData.push(data);
+        });
+
+        observer.next(carouselData);
+      });
+
+      return unsubscribe;
+    });
+  }
+
   async add(city: any): Promise<void> {
     const carouselRef = collection(this.db, 'carousel');
     const cityDocRef = doc(carouselRef, city.id);
@@ -49,6 +69,34 @@ export class CarouselService {
 
     try {
       await deleteDoc(cityDoc);
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async downloadImage(item: ImgCarousel) {
+    const image = await fetch(item.img);
+    const imageBlob = await image.blob();
+    const imageURL = URL.createObjectURL(imageBlob);
+
+    const link = document.createElement('a');
+    link.href = imageURL;
+    link.download = `image_${item.id}.jpg`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  }
+
+  async updateLikes(item: ImgCarousel) {
+    try {
+      const itemRef = doc(this.db, `carousel/${item.id}`);
+
+      const snapshot = await getDoc(itemRef);
+      const itemData = snapshot.data();
+
+      const updatedLikes = itemData?.['likes'] + 1;
+
+      await updateDoc(itemRef, { likes: updatedLikes });
     } catch (error) {
       throw error;
     }
