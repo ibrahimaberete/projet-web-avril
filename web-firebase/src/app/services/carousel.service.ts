@@ -31,4 +31,16 @@ export class CarouselService {
       throw error;
     }
   }
+
+  async update(updatedData: any): Promise<void> {
+    const carouselRef = collection(this.db, 'carousel');
+    const cityDoc = doc(carouselRef, updatedData.id);
+
+    try {
+      await updateDoc(cityDoc, updatedData);
+    } catch (error) {
+      throw error;
+    }
+  }
+  
 }
