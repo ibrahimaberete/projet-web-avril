@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "177774586140",
+    "project_id": "projet-web-avril",
+    "storage_bucket": "projet-web-avril.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:177774586140:android:6a585f163eab3912ed32d9",
+        "android_client_info": {
+          "package_name": "com.example.flutter_firebase_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCG8tBt4esZeXfmx0NeHblZDPhwahPoWcA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
