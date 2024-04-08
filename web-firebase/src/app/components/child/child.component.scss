@@ -1,0 +1,50 @@
+.carousel {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 12px;
+}
+
+@media (max-width: 1200px) {
+  .carousel{
+    gap: 16px;
+  }
+}
+
+
+.carousel-item {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.example-card {
+  width: 100%;
+  max-width: 300px;
+  box-shadow: 5px 5px 5px 5px lightgray;
+}
+
+
+:host ::ng-deep .mdc-card__media {
+  position: relative;
+  box-sizing: border-box;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  height: 200px;
+}
+
+:host ::ng-deep .mat-mdc-card-header {
+  display: flex;
+  padding: 16px 16px 0;
+  justify-content: center;
+  align-items: center;
+}
+
+:host ::ng-deep .mdc-card__actions {
+  justify-content: center;
+}
