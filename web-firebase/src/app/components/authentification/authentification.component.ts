@@ -22,6 +22,7 @@ export class AuthentificationComponent implements OnInit {
     password: new FormControl(''),
   });
 
+  hide = true;
 
   constructor(private authService: AuthService, private router: Router, private snackBar: MatSnackBar) {}
 

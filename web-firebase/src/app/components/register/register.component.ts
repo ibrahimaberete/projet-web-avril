@@ -33,6 +33,8 @@ export class RegisterComponent {
     confirmPassword: new FormControl(''),
   }, { validators: this.passwordMatchValidator });
 
+  hidePassword = true;
+  hideConfirmPassword = true;
 
   constructor(private authService: AuthService, private router: Router, private snackBar: MatSnackBar) { }
 

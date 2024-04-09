@@ -1,21 +1,22 @@
-<div class="auth-container">
-    <mat-card>
-      <mat-card-header>
-        <mat-card-title>Authentification</mat-card-title>
-      </mat-card-header>
-      <mat-card-content>
-        <form [formGroup]="loginForm" (ngSubmit)="login()">
-          <mat-form-field>
+<header class="header">
+    <h1>Bienvenue sur notre site</h1>
+</header>
+
+<div class="form-container">
+    <form class="my-form" [formGroup]="loginForm" (ngSubmit)="login()">
+        <mat-form-field class="label">
             <mat-label>Email</mat-label>
             <input matInput type="email" formControlName="email">
-          </mat-form-field>
-          <mat-form-field>
+            <mat-icon matSuffix>email</mat-icon>
+        </mat-form-field>
+        <mat-form-field class="label">
             <mat-label>Mot de passe</mat-label>
-            <input matInput type="password" formControlName="password">
-          </mat-form-field>
-          <button mat-raised-button color="primary">Se connecter</button>
-          <p>Pas encore de compte ? <a routerLink="/register">Créer un compte</a></p>
-        </form>
-      </mat-card-content>
-    </mat-card>
-  </div>
+            <input matInput [type]="hide ? 'password' : 'text'" formControlName="password">
+            <button mat-icon-button matSuffix (click)="hide = !hide" type="button">
+                <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+            </button>
+        </mat-form-field>
+        <button mat-raised-button color="primary">Se connecter</button>
+        <p class="link">Pas encore de compte ? <a routerLink="/register">Créer un compte</a></p>
+    </form>
+</div>
