@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_downloader/flutter_downloader.dart';
+import 'package:path_provider/path_provider.dart';
 import 'AddCityPage.dart';
 
 class ImageListPage extends StatelessWidget {
@@ -49,7 +51,7 @@ class ImageListPage extends StatelessWidget {
                             mainAxisSize: MainAxisSize.min,
                             children: <Widget>[
                               IconButton(
-                                icon: Icon(Icons.thumb_up),
+                                icon: const Icon(Icons.thumb_up),
                                 onPressed: () {
                                   FirebaseFirestore.instance
                                       .runTransaction((transaction) async {
@@ -74,7 +76,7 @@ class ImageListPage extends StatelessWidget {
                               ),
                               Text(documents[index]['likes'].toString()),
                               IconButton(
-                                icon: Icon(Icons.delete),
+                                icon: const Icon(Icons.delete),
                                 onPressed: () {
                                   FirebaseFirestore.instance
                                       .collection('carousel')
@@ -82,6 +84,19 @@ class ImageListPage extends StatelessWidget {
                                       .delete();
                                 },
                               ),
+                              IconButton(
+                              icon: const Icon(Icons.download),
+                              onPressed: () async {
+                                final externalDir = await getExternalStorageDirectory();
+                                await FlutterDownloader.enqueue(
+                                  url: documents[index]['img'],
+                                  savedDir: externalDir!.path,
+                                  fileName: 'image_${documents[index]['id']}.jpg',
+                                  showNotification: true,
+                                  openFileFromNotification: true,
+                                );
+                              },
+                            ),
                             ],
                           ),
                         ),
