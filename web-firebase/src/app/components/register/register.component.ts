@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
-import { AbstractControl, ValidatorFn } from '@angular/forms';
+import { AbstractControl } from '@angular/forms';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { AuthService } from 'src/app/services/auth.service';
 import { MatCardModule } from '@angular/material/card';
@@ -9,6 +9,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { CommonModule } from '@angular/common';
+import { ErrorMessage } from 'src/app/interfaces/img-carousel';
 
 @Component({
   selector: 'app-register',
@@ -57,7 +58,7 @@ export default class RegisterComponent {
     private snackBar: MatSnackBar
   ) {}
 
-  register() {
+  register():void {
     const { email, password, confirmPassword } = this.registerForm?.value;
 
     if (password !== confirmPassword) {
@@ -73,7 +74,7 @@ export default class RegisterComponent {
         this.router.navigate(['/home']);
       })
       .catch((error) => {
-        let message;
+        let message:ErrorMessage;
         console.log('Erreur de connexion : ', error);
         switch (error.code) {
           case 'auth/email-already-in-use':

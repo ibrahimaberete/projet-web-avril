@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { initializeApp } from 'firebase/app';
-import { getFirestore, collection, onSnapshot, addDoc, doc, updateDoc, deleteDoc, setDoc, getDoc } from 'firebase/firestore';
+import { FirebaseApp, initializeApp } from 'firebase/app';
+import { getFirestore, collection, onSnapshot, addDoc, doc, updateDoc, deleteDoc, setDoc, getDoc, Firestore, DocumentData } from 'firebase/firestore';
 import { Observable } from 'rxjs';
 import { firebaseConfig } from '../environments/environment';
-import { ImgCarousel } from '../interfaces/img-carousel';
+import { ImgCarousel, UpdateImgCarousel } from '../interfaces/img-carousel';
 
 
 @Injectable({
@@ -11,23 +11,23 @@ import { ImgCarousel } from '../interfaces/img-carousel';
 })
 export class CarouselService {
 
-  private app: any;
-  private db: any;
+  private app: FirebaseApp ;
+  private db: Firestore ;
 
   constructor() {
     this.app = initializeApp(firebaseConfig);
     this.db = getFirestore(this.app);
   }
 
-  getCarouselData(): Observable<any[]> {
+  getCarouselData(): Observable<ImgCarousel[]> {
     const carouselRef = collection(this.db, 'carousel');
 
-    return new Observable<any[]>((observer) => {
+    return new Observable<ImgCarousel[]>((observer) => {
       const unsubscribe = onSnapshot(carouselRef, (querySnapshot) => {
-        const carouselData: any[] = [];
+        const carouselData: ImgCarousel[] = [];
 
         querySnapshot.forEach((doc) => {
-          const data = doc.data();
+          const data = doc.data() as ImgCarousel;
           data['id'] = doc.id;
           carouselData.push(data);
         });
@@ -39,13 +39,12 @@ export class CarouselService {
     });
   }
 
-  async add(city: any): Promise<void> {
+  async add(data: ImgCarousel): Promise<void> {
     const carouselRef = collection(this.db, 'carousel');
-    const cityDocRef = doc(carouselRef, city.id);
+    const cityDocRef = doc(carouselRef, data.id);
 
     try {
-      await setDoc(cityDocRef, city);
-      console.log(city);
+      await setDoc(cityDocRef, data);
     } catch (error) {
       throw error;
     }
@@ -63,7 +62,7 @@ export class CarouselService {
     }
   }
 
-  async delete(item: any): Promise<void> {
+  async delete(item: ImgCarousel): Promise<void> {
     const carouselRef = collection(this.db, 'carousel');
     const cityDoc = doc(carouselRef, item.id);
 
@@ -74,7 +73,7 @@ export class CarouselService {
     }
   }
 
-  async downloadImage(item: ImgCarousel) {
+  async downloadImage(item: ImgCarousel):Promise<void> {
     const image = await fetch(item.img);
     const imageBlob = await image.blob();
     const imageURL = URL.createObjectURL(imageBlob);
@@ -87,7 +86,7 @@ export class CarouselService {
     document.body.removeChild(link);
   }
 
-  async updateLikes(item: ImgCarousel) {
+  async updateLikes(item: ImgCarousel):Promise<void> {
     try {
       const itemRef = doc(this.db, `carousel/${item.id}`);
 
