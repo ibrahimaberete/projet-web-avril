@@ -16,13 +16,19 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatInputModule } from '@angular/material/input';
 import { FormsModule } from '@angular/forms';
 import {MatIconModule} from '@angular/material/icon';
+import { AuthentificationComponent } from './components/authentification/authentification.component';
+import { RegisterComponent } from './components/register/register.component';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+
 
 @NgModule({
   declarations: [
     AppComponent,
     ChildComponent,
     CityDialogComponent,
-    MainComponent
+    MainComponent,
+    AuthentificationComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule,
@@ -36,7 +42,8 @@ import {MatIconModule} from '@angular/material/icon';
     MatDialogModule,
     MatInputModule,
     FormsModule,
-    MatIconModule
+    MatIconModule,
+    MatSnackBarModule
   ],
   providers: [],
   bootstrap: [AppComponent]
