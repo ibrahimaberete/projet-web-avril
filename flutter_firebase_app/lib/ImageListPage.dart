@@ -45,6 +45,45 @@ class ImageListPage extends StatelessWidget {
                         ),
                         ListTile(
                           title: Text(documents[index]['id']),
+                          trailing: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: <Widget>[
+                              IconButton(
+                                icon: Icon(Icons.thumb_up),
+                                onPressed: () {
+                                  FirebaseFirestore.instance
+                                      .runTransaction((transaction) async {
+                                    DocumentSnapshot snapshot =
+                                        await transaction.get(FirebaseFirestore
+                                            .instance
+                                            .collection('carousel')
+                                            .doc(documents[index].id));
+                                    if (!snapshot.exists) {
+                                      throw Exception(
+                                          "Document does not exist!");
+                                    }
+                                    int newLikes =
+                                        documents[index]['likes'] + 1;
+                                    transaction.update(
+                                        FirebaseFirestore.instance
+                                            .collection('carousel')
+                                            .doc(documents[index].id),
+                                        {'likes': newLikes});
+                                  });
+                                },
+                              ),
+                              Text(documents[index]['likes'].toString()),
+                              IconButton(
+                                icon: Icon(Icons.delete),
+                                onPressed: () {
+                                  FirebaseFirestore.instance
+                                      .collection('carousel')
+                                      .doc(documents[index].id)
+                                      .delete();
+                                },
+                              ),
+                            ],
+                          ),
                         ),
                       ],
                     ),
