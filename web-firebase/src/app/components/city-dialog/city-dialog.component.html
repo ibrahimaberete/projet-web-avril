@@ -3,7 +3,7 @@
   <form [formGroup]="cityForm" (ngSubmit)="onSubmit()">
     <mat-form-field>
       <mat-label>Nom de la ville</mat-label>
-      <input matInput formControlName="cityName">
+      <input matInput formControlName="cityName"  [disabled]="isUpdate">
     </mat-form-field>
     <mat-form-field>
       <mat-label>Image URL</mat-label>
