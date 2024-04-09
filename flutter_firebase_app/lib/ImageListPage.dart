@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:path_provider/path_provider.dart';
@@ -6,10 +7,16 @@ import 'AddCityPage.dart';
 import 'UpdateCityPage.dart';
 
 class ImageListPage extends StatelessWidget {
-  const ImageListPage({Key? key});
+  final bool onlyUserPosts;
+  const ImageListPage({Key? key, this.onlyUserPosts = false}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final User? currentUser = FirebaseAuth.instance.currentUser;
+    Query<Map<String, dynamic>> query = FirebaseFirestore.instance.collection('carousel');
+    if (onlyUserPosts) {
+      query = query.where('userId', isEqualTo: currentUser?.uid);  // Filtrer par userId si onlyUserPosts est vrai
+    }
     return Scaffold(
       appBar: AppBar(
         title: const Text('Liste des villes'),
@@ -26,7 +33,7 @@ class ImageListPage extends StatelessWidget {
         ],
       ),
       body: StreamBuilder<QuerySnapshot>(
-        stream: FirebaseFirestore.instance.collection('carousel').snapshots(),
+      stream: query.snapshots(),
         builder: (context, snapshot) {
           if (!snapshot.hasData) return const CircularProgressIndicator();
           final List<DocumentSnapshot> documents = snapshot.data?.docs ?? [];
@@ -78,21 +85,21 @@ class ImageListPage extends StatelessWidget {
                               Text(documents[index]['likes'].toString()),
                               IconButton(
                                 icon: Icon(Icons.edit),
-                                onPressed: () {
+                                onPressed: documents[index]['userId'] == currentUser?.uid ? () {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(builder: (context) => UpdateCityPage(docId: documents[index].id)),
                                   );
-                                },
+                                }: null ,
                               ),
                               IconButton(
                                 icon: const Icon(Icons.delete),
-                                onPressed: () {
+                                onPressed:  documents[index]['userId'] == currentUser?.uid ?() {
                                   FirebaseFirestore.instance
                                       .collection('carousel')
                                       .doc(documents[index].id)
                                       .delete();
-                                },
+                                }: null,
                               ),
                               IconButton(
                                 icon: const Icon(Icons.download),

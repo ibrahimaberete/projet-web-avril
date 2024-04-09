@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class UpdateCityPage extends StatefulWidget {
   final String docId;
@@ -14,6 +15,7 @@ class _UpdateCityPageState extends State<UpdateCityPage> {
   final TextEditingController urlController = TextEditingController();
   final TextEditingController nameController = TextEditingController();
   int likes = 0;
+  String? userId;
 
   @override
   void initState() {
@@ -26,10 +28,13 @@ class _UpdateCityPageState extends State<UpdateCityPage> {
     nameController.text = doc['id'];
     urlController.text = doc['img'];
     likes = doc['likes'];
+    userId = doc['userId'];
   }
 
   @override
   Widget build(BuildContext context) {
+    final User? currentUser = FirebaseAuth.instance.currentUser;
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.deepPurple,
@@ -50,23 +55,30 @@ class _UpdateCityPageState extends State<UpdateCityPage> {
             ElevatedButton(
               child: const Text('Mettre à jour'),
               onPressed: () async {
-                // Créer un nouveau document avec le nouvel ID
-                await FirebaseFirestore.instance
-                    .collection('carousel')
-                    .doc(nameController.text)
-                    .set({
-                  'img': urlController.text,
-                  'id': nameController.text,
-                  'likes': likes,
-                });
+                if (currentUser?.uid == userId) {
+                  // Créer un nouveau document avec le nouvel ID
+                  await FirebaseFirestore.instance
+                      .collection('carousel')
+                      .doc(nameController.text)
+                      .set({
+                    'img': urlController.text,
+                    'id': nameController.text,
+                    'likes': likes,
+                    'userId': userId,  // Ajoutez cette ligne
+                  });
 
-                // Supprimer l'ancien document
-                await FirebaseFirestore.instance
-                    .collection('carousel')
-                    .doc(widget.docId)
-                    .delete();
+                  // Supprimer l'ancien document
+                  if (nameController.text != widget.docId) {
+                    await FirebaseFirestore.instance
+                        .collection('carousel')
+                        .doc(widget.docId)
+                        .delete();
+                  }
 
-                Navigator.pop(context);
+                  Navigator.pop(context);
+                } else {
+                  print('You are not the owner of this card.');
+                }
               },
             ),
           ],
