@@ -3,7 +3,7 @@ import { FirebaseApp, initializeApp } from 'firebase/app';
 import { getFirestore, collection, onSnapshot, addDoc, doc, updateDoc, deleteDoc, setDoc, getDoc, Firestore, DocumentData } from 'firebase/firestore';
 import { Observable } from 'rxjs';
 import { firebaseConfig } from '../environments/environment';
-import { ImgCarousel, UpdateImgCarousel } from '../interfaces/img-carousel';
+import { ImgCarousel } from '../interfaces/img-carousel';
 
 
 @Injectable({
@@ -50,19 +50,12 @@ export class CarouselService {
     }
   }
 
-  async update(updatedData: UpdateImgCarousel): Promise<void> {
-    // Vérifiez que oldId et newId ne sont pas vides
-    if (!updatedData.oldId || !updatedData.newId) {
-      throw new Error('oldId et newId ne peuvent pas être vides');
-    }
-
+  async update(updatedData: ImgCarousel): Promise<void> {
     const carouselRef = collection(this.db, 'carousel');
-    const oldDoc = doc(carouselRef, updatedData.oldId);
-    const newDoc = doc(carouselRef, updatedData.newId);
+    const cityDoc = doc(carouselRef, updatedData.id);
 
     try {
-      await setDoc(newDoc, updatedData);
-      await deleteDoc(oldDoc);
+      await updateDoc(cityDoc, { img: updatedData.img });
     } catch (error) {
       throw error;
     }
