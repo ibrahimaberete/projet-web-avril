@@ -15,18 +15,16 @@ import { AuthService } from 'src/app/services/auth.service';
 export class MainComponent implements OnInit, OnDestroy {
 
   imgCarousel: ImgCarousel[] = [];
-  private carouselDataSubscription: Subscription | undefined;
-
+  private carouselDataSubscription?: Subscription ;
 
   constructor(private carouselService: CarouselService, 
     private dialog: MatDialog, 
     private router: Router,
-     private authService: AuthService) {}
+    private authService: AuthService) {}
 
   ngOnInit(): void {
     this.carouselDataSubscription = this.carouselService.getCarouselData().subscribe((data) => {
       this.imgCarousel = data;
-      console.log('carousel', this.imgCarousel);
     });
   }
 
@@ -53,7 +51,7 @@ export class MainComponent implements OnInit, OnDestroy {
       .then(() => {
         this.router.navigate(['/login']);
       })
-      .catch((error: { message: any; }) => {
+      .catch((error: { message: string }) => {
         console.error('Erreur de déconnexion : ', error.message);
       });
   }

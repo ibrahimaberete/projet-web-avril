@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { ImgCarousel } from 'src/app/interfaces/img-carousel';
+import { ImgCarousel, UpdateImgCarousel } from 'src/app/interfaces/img-carousel';
 import { CityDialogComponent } from '../city-dialog/city-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { CarouselService } from 'src/app/services/carousel.service';
@@ -17,32 +17,32 @@ export class ChildComponent {
 
   @Input() city?: ImgCarousel[] = [];
 
-  sendItemUpdate(item: any) {
+  sendItemUpdate(item: ImgCarousel):void {
     this.openUpdateDialog(item);
   }
 
-  openUpdateDialog(item: any) {
+  openUpdateDialog(item: ImgCarousel):void {
     const dialogRef = this.dialog.open(CityDialogComponent, {
       width: '300px',
       data: item,
     });
 
-    dialogRef.afterClosed().subscribe((result) => {
+    dialogRef.afterClosed().subscribe((result:UpdateImgCarousel) => {
       if (result) {
         this.carouselService.update(result);
       }
     });
   }
 
-  deleteItem(item: any) {
+  deleteItem(item: ImgCarousel):void {
     this.carouselService.delete(item);
   }
 
-  downloadImage(item: ImgCarousel) {
+  downloadImage(item: ImgCarousel):void {
     this.carouselService.downloadImage(item);
   }
 
-  updateLikes(item: any) {
+  updateLikes(item: ImgCarousel):void {
     this.carouselService.updateLikes(item);
   }
 

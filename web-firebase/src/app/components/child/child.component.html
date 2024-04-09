@@ -14,17 +14,14 @@
       <img mat-card-image [src]="item.img" alt="Image {{ item.id }}">
       <mat-card-actions>
 
-        <!--Modifier-->
         <button mat-icon-button (click)="sendItemUpdate(item)" aria-label="Example icon button with a home icon">
           <mat-icon>edit</mat-icon>
         </button>
 
-        <!--Supprimer-->
         <button mat-icon-button (click)="deleteItem(item)" aria-label="Example icon button with a home icon">
           <mat-icon>delete</mat-icon>
         </button>
 
-        <!--Téléchargement-->
         <button mat-icon-button (click)="downloadImage(item)" color="primary"
           aria-label="Example icon button with a home icon">
           <mat-icon>download</mat-icon>
