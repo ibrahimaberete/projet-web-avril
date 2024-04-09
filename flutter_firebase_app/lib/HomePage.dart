@@ -32,7 +32,16 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             ElevatedButton(
-              child: const Text('Go to Image List'),
+              child: const Text('Mes posts'),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const ImageListPage(onlyUserPosts: true)),
+                );
+              },
+            ),
+              ElevatedButton(
+              child: const Text('Tous les postes'),
               onPressed: () {
                 Navigator.push(
                   context,

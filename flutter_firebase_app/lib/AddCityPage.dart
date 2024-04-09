@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -29,14 +30,20 @@ class AddCityPage extends StatelessWidget {
             ElevatedButton(
               child: const Text('Ajouter'),
               onPressed: () {
-                FirebaseFirestore.instance
-                    .collection('carousel')
-                    .doc(nameController.text)
-                    .set({
-                  'img': urlController.text,
-                  'id': nameController.text,
-                  'likes': 0
-                });
+                final User? currentUser = FirebaseAuth.instance.currentUser;
+                if (currentUser != null) {
+                  FirebaseFirestore.instance
+                      .collection('carousel')
+                      .doc(nameController.text)
+                      .set({
+                    'img': urlController.text,
+                    'id': nameController.text,
+                    'likes': 0,
+                    'userId': currentUser.uid,  // Ajoutez cette ligne
+                  });
+                } else {
+                  print('No user is currently signed in.');
+                }
                 Navigator.pop(context);
               },
             ),
