@@ -23,7 +23,7 @@ class _LoginPageState extends State<LoginPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               const Text(
-                'Connecter vous !',
+                'Connectez-vous !',
                 style: TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
