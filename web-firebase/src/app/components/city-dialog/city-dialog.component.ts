@@ -50,7 +50,7 @@ export class CityDialogComponent {
 
       const cityData = { id: cityName, img: imageUrl, likes: like };
 
-      this.carouselService.update({ oldId:this.data.id,newId:cityName,img:imageUrl,likes:like});
+      this.carouselService.update({ oldId:this.data.id,newId:cityName,...cityData});
 
       this.dialogRef?.close(cityData);
     }
