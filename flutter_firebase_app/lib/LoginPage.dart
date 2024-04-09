@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_firebase_app/RegisterPage.dart';
 
 class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+  const LoginPage({Key? key}) : super(key: key);
 
   @override
   _LoginPageState createState() => _LoginPageState();
@@ -22,21 +22,37 @@ class _LoginPageState extends State<LoginPage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              TextField(
-                controller: _emailController,
-                decoration: const InputDecoration(
-                  labelText: 'Email',
+              const Text(
+                'Connecter vous !',
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
                 ),
               ),
               TextField(
+                controller: _emailController,
+                decoration: InputDecoration(
+                  labelText: 'Email',
+                  border: OutlineInputBorder(),
+                ),
+              ),
+              SizedBox(height: 20),
+              TextField(
                 controller: _passwordController,
-                decoration: const InputDecoration(
+                decoration: InputDecoration(
                   labelText: 'Password',
+                  border: OutlineInputBorder(),
                 ),
                 obscureText: true,
               ),
+              SizedBox(height: 20),
               ElevatedButton(
-                child: const Text('Sign in'),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.blue, // background color
+                  textStyle: TextStyle(color: Colors.white), // text color
+                ),
+                child: Text('Sign in'),
                 onPressed: () async {
                   try {
                     await FirebaseAuth.instance.signInWithEmailAndPassword(
@@ -46,7 +62,6 @@ class _LoginPageState extends State<LoginPage> {
                   } on FirebaseAuthException catch (e) {
                     String message;
                     switch (e.code) {
-                      
                       case 'invalid-email':
                         message = 'The email address is not valid.';
                         break;
@@ -70,7 +85,14 @@ class _LoginPageState extends State<LoginPage> {
                   }
                 },
               ),
-              TextButton(
+              SizedBox(height: 20),
+              
+               ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.blue, // background color
+                  textStyle: TextStyle(color: Colors.white), // text color
+                ),onPressed: () {  },
+                child: TextButton(
                 child: const Text('Click here to register'),
                 onPressed: () {
                   Navigator.push(
@@ -78,7 +100,7 @@ class _LoginPageState extends State<LoginPage> {
                     MaterialPageRoute(builder: (context) => const RegisterPage()),
                   );
                 },
-              ),
+              ),)
             ],
           ),
         ),
