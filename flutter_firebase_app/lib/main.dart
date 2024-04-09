@@ -9,9 +9,10 @@ import 'firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await FlutterDownloader.initialize(
-    debug: true,
-  );
+  // decommentez la ligne suivante pour activer le téléchargement sur mobile
+  // await FlutterDownloader.initialize(
+  //   debug: true,
+  // );
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
