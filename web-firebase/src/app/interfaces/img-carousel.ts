@@ -1,5 +1,14 @@
 export interface ImgCarousel {
-  id?:string;
+  id?: string;
   img: string;
   likes?: number;
 }
+
+export interface UpdateImgCarousel {
+  oldId?: string;
+  newId?: string;
+  img: string;
+  likes?: number;
+}
+
+export type ErrorMessage='The account already exists for that email.'|'The email address is not valid.'|'Email/password accounts are not enabled.'|'The password is too weak.'|'An unknown error occurred.'

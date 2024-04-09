@@ -1,16 +1,16 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AbstractControl, ValidatorFn } from '@angular/forms';
+import { AbstractControl } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AuthService } from 'src/app/services/auth.service';
+import { ErrorMessage } from 'src/app/interfaces/img-carousel';
 
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss']
 })
-
 
 export class RegisterComponent {
   
@@ -36,7 +36,7 @@ export class RegisterComponent {
 
   constructor(private authService: AuthService, private router: Router, private snackBar: MatSnackBar) { }
 
-  register() {
+  register():void {
     const { email, password, confirmPassword } = this.registerForm?.value;
   
     if (password !== confirmPassword) {
@@ -51,7 +51,7 @@ export class RegisterComponent {
         this.router.navigate(['/home']);
       })
       .catch((error) => {
-        let message;
+        let message:ErrorMessage;
         console.log('Erreur de connexion : ', error);
         switch (error.code) {
           case 'auth/email-already-in-use':
