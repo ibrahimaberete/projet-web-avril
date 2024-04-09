@@ -6,7 +6,6 @@ import { firebaseConfig } from '../environments/environment';
 import { ImgCarousel } from '../interfaces/img-carousel';
 
 
-
 @Injectable({
   providedIn: 'root'
 })
@@ -101,6 +100,4 @@ export class CarouselService {
       throw error;
     }
   }
-
-
 }
