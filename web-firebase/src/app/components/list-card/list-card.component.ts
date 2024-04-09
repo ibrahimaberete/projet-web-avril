@@ -23,32 +23,34 @@ export class ListCardComponent {
 
   @Input() city?: ImgCarousel[] = [];
 
-  sendItemUpdate(item: any) {
+  sendItemUpdate(item: ImgCarousel): void {
     this.openUpdateDialog(item);
   }
 
-  openUpdateDialog(item: any) {
+  openUpdateDialog(item: ImgCarousel): void {
     const dialogRef = this.dialog.open(CityDialogComponent, {
       width: '300px',
       data: item,
     });
 
-    dialogRef.afterClosed().subscribe((result) => {
+    dialogRef.afterClosed().subscribe((result:ImgCarousel) => {
       if (result) {
+        console.log(result);
+
         this.carouselService.update(result);
       }
     });
   }
 
-  deleteItem(item: any) {
+  deleteItem(item: ImgCarousel): void {
     this.carouselService.delete(item);
   }
 
-  downloadImage(item: ImgCarousel) {
+  downloadImage(item: ImgCarousel): void {
     this.carouselService.downloadImage(item);
   }
 
-  updateLikes(item: any) {
+  updateLikes(item: ImgCarousel): void {
     this.carouselService.updateLikes(item);
   }
 

@@ -28,7 +28,6 @@ export default class CityDialogComponent {
   constructor(
     public dialogRef: MatDialogRef<CityDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: ImgCarousel,
-    private carouselService: CarouselService,
     private fb: FormBuilder
   ) {
     this.cityForm = this.fb.group({

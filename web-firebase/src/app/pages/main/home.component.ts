@@ -22,7 +22,6 @@ import CityDialogComponent from 'src/app/components/city-dialog/city-dialog.comp
     MatCardModule,
     MatButtonModule,
     ListCardComponent,
-    CityDialogComponent
   ],
 })
 export default class HomeComponent implements OnInit, OnDestroy {
@@ -69,7 +68,7 @@ export default class HomeComponent implements OnInit, OnDestroy {
       .then(() => {
         this.router.navigate(['/login']);
       })
-      .catch((error: { message: any }) => {
+      .catch((error: { message: string }) => {
         console.error('Erreur de déconnexion : ', error.message);
       });
   }

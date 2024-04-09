@@ -3,7 +3,7 @@ import { FirebaseApp, initializeApp } from 'firebase/app';
 import { getFirestore, collection, onSnapshot, addDoc, doc, updateDoc, deleteDoc, setDoc, getDoc, Firestore, DocumentData } from 'firebase/firestore';
 import { Observable } from 'rxjs';
 import { firebaseConfig } from '../environments/environment';
-import { ImgCarousel, UpdateImgCarousel } from '../interfaces/img-carousel';
+import { ImgCarousel } from '../interfaces/img-carousel';
 
 
 @Injectable({
@@ -50,13 +50,12 @@ export class CarouselService {
     }
   }
 
-  async update(updatedData: any): Promise<void> {
+  async update(updatedData: ImgCarousel): Promise<void> {
     const carouselRef = collection(this.db, 'carousel');
     const cityDoc = doc(carouselRef, updatedData.id);
-    console.log(updatedData);
 
     try {
-      await updateDoc(cityDoc, updatedData);
+      await updateDoc(cityDoc, { img: updatedData.img });
     } catch (error) {
       throw error;
     }
