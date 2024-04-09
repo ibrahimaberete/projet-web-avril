@@ -53,11 +53,21 @@ export class CarouselService {
   }
 
   async update(updatedData: any): Promise<void> {
+    // Vérifiez que oldId et newId ne sont pas vides
+    if (!updatedData.oldId || !updatedData.newId) {
+      throw new Error('oldId et newId ne peuvent pas être vides');
+    }
+
     const carouselRef = collection(this.db, 'carousel');
-    const cityDoc = doc(carouselRef, updatedData.id);
+    const oldDoc = doc(carouselRef, updatedData.oldId);
+    const newDoc = doc(carouselRef, updatedData.newId);
 
     try {
-      await updateDoc(cityDoc, updatedData);
+      // Créer un nouveau document avec le nouvel ID
+      await setDoc(newDoc, updatedData);
+
+      // Supprimer l'ancien document
+      await deleteDoc(oldDoc);
     } catch (error) {
       throw error;
     }

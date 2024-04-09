@@ -3,9 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:path_provider/path_provider.dart';
 import 'AddCityPage.dart';
+import 'UpdateCityPage.dart';
 
 class ImageListPage extends StatelessWidget {
-  const ImageListPage({super.key});
+  const ImageListPage({Key? key});
 
   @override
   Widget build(BuildContext context) {
@@ -76,6 +77,15 @@ class ImageListPage extends StatelessWidget {
                               ),
                               Text(documents[index]['likes'].toString()),
                               IconButton(
+                                icon: Icon(Icons.edit),
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(builder: (context) => UpdateCityPage(docId: documents[index].id)),
+                                  );
+                                },
+                              ),
+                              IconButton(
                                 icon: const Icon(Icons.delete),
                                 onPressed: () {
                                   FirebaseFirestore.instance
@@ -85,18 +95,18 @@ class ImageListPage extends StatelessWidget {
                                 },
                               ),
                               IconButton(
-                              icon: const Icon(Icons.download),
-                              onPressed: () async {
-                                final externalDir = await getExternalStorageDirectory();
-                                await FlutterDownloader.enqueue(
-                                  url: documents[index]['img'],
-                                  savedDir: externalDir!.path,
-                                  fileName: 'image_${documents[index]['id']}.jpg',
-                                  showNotification: true,
-                                  openFileFromNotification: true,
-                                );
-                              },
-                            ),
+                                icon: const Icon(Icons.download),
+                                onPressed: () async {
+                                  final externalDir = await getExternalStorageDirectory();
+                                  await FlutterDownloader.enqueue(
+                                    url: documents[index]['img'],
+                                    savedDir: externalDir!.path,
+                                    fileName: 'image_${documents[index]['id']}.jpg',
+                                    showNotification: true,
+                                    openFileFromNotification: true,
+                                  );
+                                },
+                              ),
                             ],
                           ),
                         ),
