@@ -3,9 +3,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_firebase_app/RegisterPage.dart';
 
 class LoginPage extends StatefulWidget {
-  const LoginPage({Key? key}) : super(key: key);
+  const LoginPage({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _LoginPageState createState() => _LoginPageState();
 }
 
@@ -23,6 +24,14 @@ class _LoginPageState extends State<LoginPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               const Text(
+                'Bienvenue chez nous !',
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                ),
+              ),
+              const Text(
                 'Connectez-vous !',
                 style: TextStyle(
                   fontSize: 24,
@@ -30,9 +39,10 @@ class _LoginPageState extends State<LoginPage> {
                   color: Colors.black,
                 ),
               ),
+              
               TextField(
                 controller: _emailController,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: 'Email',
                   border: OutlineInputBorder(),
                 ),
@@ -40,19 +50,19 @@ class _LoginPageState extends State<LoginPage> {
               SizedBox(height: 20),
               TextField(
                 controller: _passwordController,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: 'Password',
                   border: OutlineInputBorder(),
                 ),
                 obscureText: true,
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.blue, // background color
-                  textStyle: TextStyle(color: Colors.white), // text color
+                  textStyle: const TextStyle(color: Colors.white), // text color
                 ),
-                child: Text('Sign in'),
+                child: const Text('Sign in'),
                 onPressed: () async {
                   try {
                     await FirebaseAuth.instance.signInWithEmailAndPassword(
@@ -79,21 +89,30 @@ class _LoginPageState extends State<LoginPage> {
                         break;
                     }
                     print(message);
+                    // ignore: use_build_context_synchronously
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(content: Text(message), backgroundColor: Colors.red),
                     );
                   }
                 },
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
+              const Text(
+                'pas encore de compte ?',
+                style: TextStyle(
+                  fontSize: 12,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                ),
+              ),
               
                ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.blue, // background color
-                  textStyle: TextStyle(color: Colors.white), // text color
+                  textStyle: const TextStyle(color: Colors.white), // text color
                 ),onPressed: () {  },
                 child: TextButton(
-                child: const Text('Click here to register'),
+                child: const Text('Inscrivez-vous'),
                 onPressed: () {
                   Navigator.push(
                     context,
