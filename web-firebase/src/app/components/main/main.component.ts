@@ -4,6 +4,9 @@ import { CarouselService } from 'src/app/services/carousel.service';
 import { CityDialogComponent } from '../city-dialog/city-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
+import { Router } from '@angular/router';
+import { AuthService } from 'src/app/services/auth.service';
+
 @Component({
   selector: 'app-main',
   templateUrl: './main.component.html',
@@ -14,7 +17,11 @@ export class MainComponent implements OnInit, OnDestroy {
   imgCarousel: ImgCarousel[] = [];
   private carouselDataSubscription: Subscription | undefined;
 
-  constructor(private carouselService: CarouselService, private dialog: MatDialog) {}
+
+  constructor(private carouselService: CarouselService, 
+    private dialog: MatDialog, 
+    private router: Router,
+     private authService: AuthService) {}
 
   ngOnInit(): void {
     this.carouselDataSubscription = this.carouselService.getCarouselData().subscribe((data) => {
@@ -36,10 +43,18 @@ export class MainComponent implements OnInit, OnDestroy {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        // console.log('Données du dialogue fermé :', result);
         this.carouselService.add(result);
       }
     });
   }
 
+  logout() {
+    this.authService.logout()
+      .then(() => {
+        this.router.navigate(['/login']);
+      })
+      .catch((error: { message: any; }) => {
+        console.error('Erreur de déconnexion : ', error.message);
+      });
+  }
 }
