@@ -1,3 +1,26 @@
-.section {
-  padding: 12px;
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: plum;
+  height: 50px;
+  margin-bottom: 24px;
+
+  h1 {
+    text-align: center; 
+    width: 100%;
+    margin-bottom: 8px;
+  }
+}
+
+.logout {
+  margin-bottom: 8px;
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+.add {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 24px;
 }

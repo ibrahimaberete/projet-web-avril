@@ -1,11 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router, RouterModule } from '@angular/router';
+import { ErrorMessage } from 'src/app/interfaces/img-carousel';
 import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
@@ -19,12 +21,15 @@ import { AuthService } from 'src/app/services/auth.service';
     ReactiveFormsModule,
     MatInputModule,
     MatButtonModule,
-    RouterModule
+    RouterModule,
+    MatIconModule
   ],
 })
 export default class LoginComponent {
   loginForm: FormGroup = new FormGroup({
-    email: new FormControl(''),
+    email: new FormControl('',
+      [Validators.required,
+      Validators.email]),
     password: new FormControl(''),
   });
 
@@ -32,7 +37,9 @@ export default class LoginComponent {
     private authService: AuthService,
     private router: Router,
     private snackBar: MatSnackBar
-  ) {}
+  ) { }
+
+  hide = true;
 
   login() {
     const { email, password } = this.loginForm?.value;
@@ -47,7 +54,14 @@ export default class LoginComponent {
         });
       })
       .catch((error) => {
-        console.error('Erreur de connexion : ', error.message);
+        let message: ErrorMessage; // Initialize the message variable with an empty string
+        console.log('Erreur de connexion : ', error);
+       
+       
+        message = 'Email/password are not correct.';
+        this.snackBar.open(message, 'Fermer', {
+          duration: 3000,
+        });
       });
   }
 }
