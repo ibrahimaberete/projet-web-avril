@@ -10,6 +10,7 @@ import { ListCardComponent } from '../../components/list-card/list-card.componen
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import CityDialogComponent from 'src/app/components/city-dialog/city-dialog.component';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-home',
@@ -21,6 +22,7 @@ import CityDialogComponent from 'src/app/components/city-dialog/city-dialog.comp
     MatButtonModule,
     MatCardModule,
     MatButtonModule,
+    MatIconModule,
     ListCardComponent,
   ],
 })

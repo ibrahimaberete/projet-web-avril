@@ -10,6 +10,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { CommonModule } from '@angular/common';
 import { ErrorMessage } from 'src/app/interfaces/img-carousel';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-register',
@@ -23,7 +24,8 @@ import { ErrorMessage } from 'src/app/interfaces/img-carousel';
     ReactiveFormsModule,
     MatInputModule,
     MatButtonModule,
-    RouterModule
+    RouterModule,
+    MatIconModule
   ],
   standalone: true,
 })
@@ -39,7 +41,10 @@ export default class RegisterComponent {
 
   registerForm: FormGroup = new FormGroup(
     {
-      email: new FormControl(''),
+      email: new FormControl('', [
+        Validators.required,
+        Validators.email
+      ]),
       password: new FormControl('', [
         Validators.required,
         Validators.pattern(/^(?=.*[a-z])/), // Au moins une lettre minuscule
@@ -51,6 +56,9 @@ export default class RegisterComponent {
     },
     { validators: this.passwordMatchValidator }
   );
+
+  hidePassword = true;
+  hideConfirmPassword = true;
 
   constructor(
     private authService: AuthService,
