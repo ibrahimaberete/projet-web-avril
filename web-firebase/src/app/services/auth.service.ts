@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
-import { createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword, signOut } from "firebase/auth";
-
+import { createUserWithEmailAndPassword, getAuth, setPersistence, signInWithEmailAndPassword, signOut, browserLocalPersistence, browserSessionPersistence } from "firebase/auth";
 
 @Injectable({
   providedIn: 'root'
@@ -11,16 +10,20 @@ export class AuthService {
 
   async login(email: string, password: string): Promise<void> {
     const auth = getAuth();
+    await setPersistence(auth, browserSessionPersistence);
     try {
-      await signInWithEmailAndPassword(auth, email, password);
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
+      const token = await user.getIdToken(); 
+      sessionStorage.setItem('token', token); 
     } catch (error) {
       throw error;
     }
   }
 
   isLoggedIn(): boolean {
-    const auth = getAuth();
-    return auth.currentUser !== null;
+    const token = sessionStorage.getItem('token');
+    return !!token;
   }
 
   async logout(): Promise<void> {
@@ -31,13 +34,17 @@ export class AuthService {
       throw error;
     }
   }
+
   async register(email: string, password: string): Promise<void> {
     const auth = getAuth();
+    await setPersistence(auth, browserLocalPersistence);
     try {
-      await createUserWithEmailAndPassword(auth, email, password);
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
+      const token = await user.getIdToken(); 
+      sessionStorage.setItem('token', token); 
     } catch (error) {
       throw error;
     }
   }
-
 }

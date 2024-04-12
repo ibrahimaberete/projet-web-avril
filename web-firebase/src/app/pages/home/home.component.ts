@@ -11,6 +11,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import CityDialogComponent from 'src/app/components/city-dialog/city-dialog.component';
 import { MatIconModule } from '@angular/material/icon';
+import {MatTabChangeEvent, MatTabsModule} from '@angular/material/tabs';
 
 @Component({
   selector: 'app-home',
@@ -24,6 +25,7 @@ import { MatIconModule } from '@angular/material/icon';
     MatButtonModule,
     MatIconModule,
     ListCardComponent,
+    MatTabsModule,
   ],
 })
 export default class HomeComponent implements OnInit, OnDestroy {
@@ -38,18 +40,30 @@ export default class HomeComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    this.getPosts();
+  }
+
+  getPosts(onlyUserPosts: boolean = false): void {
+    if (this.carouselDataSubscription) {
+      this.carouselDataSubscription.unsubscribe();
+    }
+    
     this.carouselDataSubscription = this.carouselService
-      .getCarouselData()
+      .getCarouselData(onlyUserPosts)
       .subscribe((data) => {
         this.imgCarousel = data;
-        console.log('carousel', this.imgCarousel);
       });
   }
+
 
   ngOnDestroy(): void {
     if (this.carouselDataSubscription) {
       this.carouselDataSubscription.unsubscribe();
     }
+  }
+
+  onTabChange(event: MatTabChangeEvent): void {
+    this.getPosts(event.index === 0);
   }
 
   openDialog(): void {

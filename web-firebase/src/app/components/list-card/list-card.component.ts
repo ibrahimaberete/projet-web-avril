@@ -7,6 +7,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import CityDialogComponent from '../city-dialog/city-dialog.component';
 import { MatButtonModule } from '@angular/material/button';
+import { Unsubscribe, getAuth, onAuthStateChanged } from 'firebase/auth';
 
 @Component({
   selector: 'app-list-card',
@@ -16,12 +17,26 @@ import { MatButtonModule } from '@angular/material/button';
   imports:[CommonModule,MatCardModule,MatIconModule,MatButtonModule]
 })
 export class ListCardComponent {
+  public userId: string | null = null;
+  private authStateSubscription?: Unsubscribe;
   constructor(
     private dialog: MatDialog,
     private carouselService: CarouselService
   ) { }
 
   @Input() city?: ImgCarousel[] = [];
+
+
+  ngOnInit() {
+    const auth = getAuth();
+    this.authStateSubscription = onAuthStateChanged(auth, (user) => {
+      this.userId = user?.uid || null;
+    });
+  }
+
+  ngOnDestroy() {
+    this.authStateSubscription && this.authStateSubscription();
+  }
 
   sendItemUpdate(item: ImgCarousel): void {
     this.openUpdateDialog(item);
@@ -35,8 +50,6 @@ export class ListCardComponent {
 
     dialogRef.afterClosed().subscribe((result:ImgCarousel) => {
       if (result) {
-        console.log(result);
-
         this.carouselService.update(result);
       }
     });

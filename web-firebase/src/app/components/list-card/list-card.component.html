@@ -14,11 +14,11 @@
       <img mat-card-image [src]="item.img" alt="Image {{ item.id }}">
       <mat-card-actions>
 
-        <button mat-icon-button (click)="sendItemUpdate(item)" aria-label="Example icon button with a home icon">
+        <button mat-icon-button [disabled]="item.userId !== userId" (click)="sendItemUpdate(item)" aria-label="Example icon button with a home icon">
           <mat-icon>edit</mat-icon>
         </button>
 
-        <button mat-icon-button (click)="deleteItem(item)" aria-label="Example icon button with a home icon">
+        <button mat-icon-button  [disabled]="item.userId !== userId" (click)="deleteItem(item)" aria-label="Example icon button with a home icon">
           <mat-icon>delete</mat-icon>
         </button>
 
