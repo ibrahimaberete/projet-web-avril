@@ -28,12 +28,10 @@ L'application web a été déployée sur Vercel : [Application Web](https://proj
 Pour suivre l'avancement de notre projet, consultez notre [tableau de bord JIRA](https://projet-web-avril.atlassian.net/jira/software/projects/KAN/boards/1).
 
 pour le docker 
-aller sur le dossier flutter-firebase_app
-faire:
-docker build . -t flutter_docker
-apres le build du docker 
-ensuite :
-docker images
-enfin: 
-docker run -i -p 8080:9000 -td flutter_docker
+Dans ce fichier Docker Compose, nous définissons deux services : web-firebase(pour l'angular) et flutter_firebase_app (pour le flutter) Chaque service est construit à partir de son propre Dockerfile et expose un port spécifique. L'application Angular est accessible sur le port 4200 et l'application Flutter sur le port 9000.
 
+Pour démarrer les deux applications, vous pouvez exécuter la commande
+```
+docker-compose up 
+```
+ dans le terminal.
