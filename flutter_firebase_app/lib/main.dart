@@ -1,18 +1,20 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_downloader/flutter_downloader.dart';
-import 'package:flutter_firebase_app/HomePage.dart';
-import 'package:flutter_firebase_app/LoginPage.dart';
-import 'firebase_options.dart';
+import 'package:flutter_firebase_app/pages/HomePage.dart';
+import 'package:flutter_firebase_app/pages/LoginPage.dart';
+import 'config/firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  // decommentez la ligne suivante pour activer le téléchargement sur mobile
-  // await FlutterDownloader.initialize(
-  //   debug: true,
-  // );
+  if (!kIsWeb) {
+    await FlutterDownloader.initialize(
+      debug: true,
+    );
+  }
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
