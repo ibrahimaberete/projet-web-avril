@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:flutter_firebase_app/HomePage.dart';
 import 'package:flutter_firebase_app/LoginPage.dart';
-import 'package:flutter_firebase_app/WelcomePage.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -38,7 +37,7 @@ class MyApp extends StatelessWidget {
           if (snapshot.hasData) {
             return const MyHomePage(title: 'Flutter Application Cities');
           }
-          return const WelcomePage(); 
+          return const LoginPage();
         },
       ),
     );

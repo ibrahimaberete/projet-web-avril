@@ -4,7 +4,7 @@ import 'package:flutter_firebase_app/HomePage.dart';
 import 'package:flutter_firebase_app/LoginPage.dart';
 
 class RegisterPage extends StatefulWidget {
-  const RegisterPage({super.key});
+  const RegisterPage({Key? key}) : super(key: key);
 
   @override
   _RegisterPageState createState() => _RegisterPageState();
@@ -27,10 +27,19 @@ class _RegisterPageState extends State<RegisterPage> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
+                const Text(
+                'Inscrivez-vous !',
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                ),
+              ),
                 TextFormField(
                   controller: _emailController,
                   decoration: const InputDecoration(
                     labelText: 'Email',
+                    border: OutlineInputBorder(),
                   ),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
@@ -39,10 +48,12 @@ class _RegisterPageState extends State<RegisterPage> {
                     return null;
                   },
                 ),
+                SizedBox(height: 20),
                 TextFormField(
                   controller: _passwordController,
                   decoration: const InputDecoration(
                     labelText: 'Password',
+                    border: OutlineInputBorder(),
                   ),
                   obscureText: true,
                   validator: (value) {
@@ -60,10 +71,12 @@ class _RegisterPageState extends State<RegisterPage> {
                     return null;
                   },
                 ),
+                SizedBox(height: 20),
                 TextFormField(
                   controller: _confirmPasswordController,
                   decoration: const InputDecoration(
                     labelText: 'Confirm Password',
+                    border: OutlineInputBorder(),
                   ),
                   obscureText: true,
                   validator: (value) {
@@ -76,8 +89,13 @@ class _RegisterPageState extends State<RegisterPage> {
                     return null;
                   },
                 ),
+                SizedBox(height: 20),
                 ElevatedButton(
-                  child: const Text('Register'),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.blue, // background color
+                    textStyle: TextStyle(color: Colors.white), // text color
+                  ),
+                  child: Text('Register'),
                   onPressed: () async {
                     if (_formKey.currentState!.validate()) {
                       try {
@@ -88,9 +106,10 @@ class _RegisterPageState extends State<RegisterPage> {
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(content: Text('Registration successful'), backgroundColor: Colors.green),
                         );
+                        // Navigate to the home page after successful registration
                         Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(builder: (context) => const MyHomePage(title: 'Flutter Application Cities',)),
+                          context,
+                          MaterialPageRoute(builder: (context) => const MyHomePage(title: 'Flutter Application Cities')),
                         );
                       } on FirebaseAuthException catch (e) {
                         String message;
@@ -119,15 +138,21 @@ class _RegisterPageState extends State<RegisterPage> {
                     }
                   },
                 ),
-                TextButton(
-                child: const Text('Click here to Login'),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const LoginPage()),
-                  );
-                },
-              ),
+                SizedBox(height: 20),
+                ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.blue, // background color
+                  textStyle: TextStyle(color: Colors.white), // text color
+                ),onPressed: () {  },
+                child: TextButton(
+                  child: const Text('Click here to Login'),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const LoginPage()),
+                    );
+                  },
+                ),)
               ],
             ),
           ),
