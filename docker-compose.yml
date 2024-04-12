@@ -1,0 +1,15 @@
+version: '3.8'
+services:
+  angular_app:
+    build:
+      context: ./web-firebase
+      dockerfile: Dockerfile
+    ports:
+      - 4200:4200
+
+  flutter_app:
+    build:
+      context: ./flutter_firebase_app
+      dockerfile: Dockerfile
+    ports:
+      - 9000:9000
